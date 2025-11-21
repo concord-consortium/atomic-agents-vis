@@ -1,5 +1,7 @@
 # atomic-agents-vis
 
+This is a fork of @gjmcn/atomic-agents-vis by Graham McNeill, with modifications for Concord Consortium projects.
+
 Visualise [Atomic Agents](https://gjmcn.github.io/atomic-agents) simulations with WebGL (via [PixiJS](https://pixijs.com/)).
 
 __[Docs](https://gjmcn.github.io/atomic-agents-vis)__
