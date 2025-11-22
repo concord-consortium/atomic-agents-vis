@@ -94,6 +94,13 @@ export function vis(sim, visOps = {}) {
   app.ticker.maxFPS = visOps.maxFPS;
   visOps.target.appendChild(app.view);
 
+  let simSpeed = typeof visOps.speed === 'number' ? visOps.speed : 1;
+
+  app.simSpeed = simSpeed;
+  app.setSimSpeed = function (newSpeed) {
+    simSpeed = typeof newSpeed === 'number' && newSpeed > 0 ? newSpeed : 1;
+    app.simSpeed = simSpeed;
+  };
 
   // ===== add bitmap text to sprite ===========================================
 
@@ -523,10 +530,9 @@ export function vis(sim, visOps = {}) {
     statsDiv.style.font = '14px sans-serif';
   }
 
+  // ===== inner tick function (one sim step) =================================
 
-  // ===== tick function =======================================================
-
-  function tick() {
+  function simTick() {
 
     // finished?
     if (sim._finished) {
@@ -618,6 +624,25 @@ export function vis(sim, visOps = {}) {
 
   }
 
+  // ===== speed-aware tick wrapper ===========================================
+
+  let pendingSimTicks = 0;
+
+  function tick(delta = 1) {
+    if (simSpeed <= 0) return;
+
+    pendingSimTicks += simSpeed * delta;
+
+    // Run simTick once for each whole "step" accumulated
+    const simTicks = Math.floor(pendingSimTicks);
+    if (simTicks === 0) return;
+    pendingSimTicks -= simTicks;
+
+    for (let i = 0; i < simTicks; i++) {
+      simTick();
+      if (sim._finished) break; // simTick already stops ticker, but be extra safe
+    }
+  }
   
   // =====  load image files then call setup ==================================
 
