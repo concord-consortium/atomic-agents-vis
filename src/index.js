@@ -532,7 +532,7 @@ export function vis(sim, visOps = {}) {
 
   // ===== inner tick function (one sim step) =================================
 
-  function innerTick() {
+  function simTick() {
 
     // finished?
     if (sim._finished) {
@@ -626,24 +626,21 @@ export function vis(sim, visOps = {}) {
 
   // ===== speed-aware tick wrapper ===========================================
 
-  let tickAccumulator = 0;
+  let pendingSimTicks = 0;
 
   function tick(delta = 1) {
-    // delta ~1 per frame at normal speed; we scale by simSpeed
-    const s = Math.max(0, simSpeed);
+    if (simSpeed <= 0) return;
 
-    if (s === 0) return;
+    pendingSimTicks += simSpeed * delta;
 
-    tickAccumulator += s * delta;
+    // Run simTick once for each whole "step" accumulated
+    const simTicks = Math.floor(pendingSimTicks);
+    if (simTicks === 0) return;
+    pendingSimTicks -= simTicks;
 
-    // Run innerTick once for each whole "step" accumulated
-    const steps = Math.floor(tickAccumulator);
-    if (steps === 0) return;
-    tickAccumulator -= steps;
-
-    for (let i = 0; i < steps; i++) {
-      innerTick();
-      if (sim._finished) break; // innerTick already stops ticker, but be extra safe
+    for (let i = 0; i < simTicks; i++) {
+      simTick();
+      if (sim._finished) break; // simTick already stops ticker, but be extra safe
     }
   }
   
