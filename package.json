@@ -1,7 +1,7 @@
 {
-  "name": "@gjmcn/atomic-agents-vis",
-  "version": "0.4.5",
-  "description": "Visualise Atomic Agents simulations.",
+  "name": "@concord-consortium/atomic-agents-vis",
+  "version": "0.4.5-cc.0",
+  "description": "Concord Consortium's fork of @gjmcn/atomic-agents-vis for visualizing Atomic Agents simulations.",
   "type": "module",
   "main": "src/index.js",
   "module": "dist/index.js",
@@ -11,14 +11,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gjmcn/atomic-agents-vis.git"
+    "url": "git+https://github.com/concord-consortium/atomic-agents-vis.git"
   },
   "author": "Graham McNeill",
+  "contributors": [
+    "Graham McNeill",
+    "Concord Consortium"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gjmcn/atomic-agents-vis/issues"
+    "url": "https://github.com/concord-consortium/atomic-agents-vis/issues"
   },
-  "homepage": "https://github.com/gjmcn/atomic-agents-vis#readme",
+  "homepage": "https://github.com/concord-consortium/atomic-agents-vis#readme",
   "dependencies": {
     "pixi.js": "^6.3.0"
   },
